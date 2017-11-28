@@ -2,7 +2,6 @@
 
 module.exports = app => {
   /* GET produtos */
-  app.get('/', (req, res, next) => {
-    res.json({title: 'Home de produtos.'});
-  });
+  const produto = app.controllers.produtos.produtosCTRL;
+  app.get('/', produto);
 };

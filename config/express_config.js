@@ -2,25 +2,30 @@
 
 const express = require('express'),
       consign = require('consign'),
+      path = require('path'),
       bodyParser = require('body-parser');
 
 module.exports = () => {
     const app = express();
     app.use(bodyParser.urlencoded({extended: true}));
     app.use(bodyParser.json());
-    app.use(express.static('public'));
+    app.set('views', __dirname + './../views');
+    app.set('view engine', 'ejs');
+    app.set('view options', {layout: false});
+    app.use(express.static(path.join(__dirname, './../public')));
 
     consign()
-      .include('routes')
-      .then('data')
+      .include('controllers')
+      .then('routes')
+      .then('db')
       .into(app);
 
     app.use((req, res, next) => {
-      res.status(404).json({mensagem: 'Rota não encontrada'});
+      res.render('erro_404');
     });
 
     app.use((error, req, res, next) => {
-      res.status(500).json({mensagem: 'Erro interno no servidor.'});
+      res.render('erro_500');
     });
 
     return app;
