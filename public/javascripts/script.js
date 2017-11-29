@@ -1,3 +1,46 @@
+const AddCarrinho = (produto) => {
+  localStorage.setItem('item', JSON.stringify(produto));
+};
+
+const ProdutoCarrinho = () => {
+  const div = document.getElementById('produtosCarrinho');
+  const produtoObjeto = JSON.parse(localStorage.getItem('item'));
+  const sacola = [];
+  sacola.push(
+    '<div class="col-xs-2 col-md-3 col-lg-3 thumbnail thumb2"  id="'+ produtoObjeto.sku +'">' +
+      '<img src="" class="imagem" alt="Corinthians" style="width:100%">' +
+      '<p class="descProduto">' + produtoObjeto.description + '</p>' +
+      '<p class="tamanhoProduto">' + produtoObjeto.availableSizes + '</p>' +
+      '<p class="precProdutoCarrinho">'+ produtoObjeto.price + '</p>' +
+      '<input type="button" class="btn btn-default btn2" id="'+ produtoObjeto.sku +'" onclick="RemoveProduto(this.id);" value="Remover" />' +
+    '</div>'
+  );
+  if (sacola.length > 0) {
+    div.innerHTML += sacola;
+  } else {
+    div.innerHTML = 'Carrinho Vazio.';
+  }
+
+};
+
+const RemoveProduto = (idProduto) => {
+  console.log(idProduto);
+  localStorage.removeItem(idProduto);
+};
+
+const FechaCompra = () => {
+  alert('Obrigado pela compra no valor de R$ 100,00! A NetShoes Agradece. :)')
+};
+
+const Contador = () => {
+
+};
+
+const Preco = () => {
+
+};
+
+
 /*var precoTotal = [];
 function add(produto) {
   var contador = document.getElementById('carrinho').innerHTML;
@@ -66,7 +109,4 @@ function remove(id) {
   precoTotal = [];
 }
 
-function fechaCompra() {
-  var valCompra = document.getElementById('total').innerHTML;
-  alert('Obrigado pela compra no valor de R$ ' + valCompra + '! A NetShoes Agradece. :)')
-}*/
+*/

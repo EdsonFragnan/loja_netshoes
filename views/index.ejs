@@ -7,18 +7,20 @@
     <meta name="author" content="Edson Luiz Fragnan">
     <link rel="stylesheet" href="./bootstrap/dist/css/bootstrap.css">
     <link rel="stylesheet" href="./stylesheets/style.css" type="text/css" />
-    <!--<script src="javascripts/script.js"></script>-->
+    <script src="javascripts/script.js"></script>
   </head>
 
   <body>
     <div class="container">
-      <!--<div class="row">
+      <div class="row">
         <div id="carrinhoCompras">
-          <span id="carrinho">0</span>
-          <img src="images/carrinho.jpg" class="imgCarrinho" alt="carrinho" />
+          <input type="button" onclick="ProdutoCarrinho()">
+            <span id="carrinho">0</span>
+            <img src="images/carrinho.jpg" class="imgCarrinho" alt="carrinho"/>
+          </input>
         </div>
         <hr />
-      </div>-->
+      </div>
       <div class="row">
         <% vitrine.forEach(function(produto) { %>
           <div class="col-xs-2 col-sm-4 col-md-4 col-lg-4 thumbnail">
@@ -28,28 +30,24 @@
               <p class="traco">-</p>
               <p class="precoProduto"><span class="valorProduto <%- produto.id %>"><%- produto.price %></span></p>
               <p class="parcelas <%- produto.id %>">ou 3 x <%- produto.currencyFormat %> <%- produto.parcela %></p>
-              <input type="button" class="btn btn-default btnComprar text-center" id="<%- produto.id %>" onclick="add(this.id);" style="width:100%" value="Comprar" />
+              <input type="button" class="btn btn-default btnComprar text-center" id="<%- produto.id %>" onclick="AddCarrinho(<%=JSON.stringify(produto)%>);" style="width:100%" value="Comprar" />
             </div>
           </div>
         <% }); %>
       </div>
     </div>
-    <!--<div id="myModal" class="modal">
+    <div id="myModal" class="modal">
       <div class="modal-content">
         <span class="close">×</span>
         <h3>Carrinho</h3>
-        <div id="prodCarrinho">
-          <p id="vazio"><strong>Carrinho vazio.</strong></p>
-        </div>
         <div class="row">
           <div class="col-xs-6 col-sm-12 col-md-12 col-lg-12">
-            <span id="cifrao3"></span>
-            <div id="total"></div>
-            <input type="button" class="btn btn-success" id="btnFecharCompra" onclick="fechaCompra()" value="COMPRAR" />
+            <div id="produtosCarrinho"></div>
+            <input type="button" class="btn btn-success" id="btnFecharCompra" onclick="FechaCompra()" value="COMPRAR" />
           </div>
         </div>
       </div>
     </div>
-    <script src="javascripts/scriptModal.js"></script>-->
+    <script src="javascripts/scriptModal.js"></script>
   </body>
 </html>
