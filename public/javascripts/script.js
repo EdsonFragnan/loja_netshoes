@@ -1,30 +1,55 @@
 const AddCarrinho = (produto) => {
-  localStorage.setItem('item', JSON.stringify(produto));
-};
+    localStorage.setItem("itens", JSON.stringify(produto));
+    const sacola = [];
+    /*console.log("Produtos: " + sacola.length);
+    sacola.forEach(function(user, index) {
+        console.log("[" + index + "]: " + user.id);
+    });*/
 
-const ProdutoCarrinho = () => {
-  const div = document.getElementById('produtosCarrinho');
-  const produtoObjeto = JSON.parse(localStorage.getItem('item'));
-  const sacola = [];
-  sacola.push(
-    '<div class="col-xs-2 col-md-3 col-lg-3 thumbnail thumb2"  id="'+ produtoObjeto.sku +'">' +
-      '<img src="" class="imagem" alt="Corinthians" style="width:100%">' +
-      '<p class="descProduto">' + produtoObjeto.description + '</p>' +
-      '<p class="tamanhoProduto">' + produtoObjeto.availableSizes + '</p>' +
-      '<p class="precProdutoCarrinho">'+ produtoObjeto.price + '</p>' +
-      '<input type="button" class="btn btn-default btn2" id="'+ produtoObjeto.sku +'" onclick="RemoveProduto(this.id);" value="Remover" />' +
+    // Modifying
+    sacola.push();
+    console.log(JSON.parse(localStorage.getItem("itens")));
+
+    // Saving
+
+
+  //const produtos = localStorage.setItem('itens', JSON.stringify(sacola));
+  //console.log(sacola);
+  //console.log(sacola.length);
+  //const itens = JSON.stringify(produto);
+
+  //sacola = JSON.parse(localStorage.getItem('itens'));
+  //console.log(localStorage.getItem('itens'));
+  //const itens = [];
+  //itens.push(JSON.stringify(produto));
+  //itens[0] = produto;
+  //localStorage.setItem('itens', JSON.stringify(itens));
+  //var storedNames = JSON.parse(localStorage.getItem("itens"));
+  //console.log(itens.length);
+  //const div = document.getElementById('produtosSacola');
+  //const produtoObjeto = JSON.parse(localStorage.getItem('item'));
+  //const sacola = [];
+  /*sacola.push(
+    '<div class="col-xs-12 col-md-12 col-lg-12" id="'+ produtoObjeto.sku +'">' +
+      '<div class="thumbnail thumb2">' +
+        '<img src="images/corinthians.jpg" class="" alt="Corinthians" style="width:100%">' +
+      '</div>'+
+      '<div class="descPedido">' +
+        '<p class="descProduto">' + produtoObjeto.title + '<span class="glyphicon glyphicon-remove" aria-hidden="true" onclick="RemoveProduto('+ produtoObjeto.sku +');"><strong>X</strong></span></p>' +
+        '<p class="tamanhoProduto">' + produtoObjeto.availableSizes + ' | ' + produtoObjeto.style + '</p>' +
+        '<p class="quantidade">Quantidade: 2 <span class="precProdutoCarrinho">' + produtoObjeto.price + '</span></p>' +
+      '</div>' +
     '</div>'
   );
-  if (sacola.length > 0) {
-    div.innerHTML += sacola;
-  } else {
-    div.innerHTML = 'Carrinho Vazio.';
-  }
-
+  console.log(sacola);
+  div.innerHTML += sacola;*/
 };
 
+const ProdutoCarrinho = () => {};
+
 const RemoveProduto = (idProduto) => {
-  console.log(idProduto);
+  var elem = document.getElementById(idProduto);
+  elem.parentNode.removeChild(elem);
   localStorage.removeItem(idProduto);
 };
 

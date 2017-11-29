@@ -2,25 +2,35 @@
 <html lang="pt">
   <head>
     <meta charset="utf-8">
-    <title>Vitrine NetShoes</title>
-    <meta name="description" content="Vitrine de produtos NetShoes">
-    <meta name="author" content="Edson Luiz Fragnan">
+    <title>slide demo</title>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet" href="./bootstrap/dist/css/bootstrap.css">
     <link rel="stylesheet" href="./stylesheets/style.css" type="text/css" />
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="javascripts/script.js"></script>
   </head>
-
   <body>
+
+    <div id="produtosCarrinho">
+      <h2 class="sacola">Sacola</h2>
+      <hr />
+      <div id="produtosSacola"></div>
+      <div id="precoTotal">
+        <p>SUBTOTAL</p>
+      </div>
+      <input type="button" class="btn btn-default btnComprarCar" value="COMPRAR" />
+    </div>
+
     <div class="container">
+
       <div class="row">
-        <div id="carrinhoCompras">
-          <input type="button" onclick="ProdutoCarrinho()">
-            <span id="carrinho">0</span>
-            <img src="images/carrinho.jpg" class="imgCarrinho" alt="carrinho"/>
-          </input>
+        <div id="carrinhoCompras" onclick="ProdutoCarrinho()">
+          <img src="images/carrinho.jpg" class="imgCarrinho" alt="carrinho"/>
         </div>
         <hr />
       </div>
+
       <div class="row">
         <% vitrine.forEach(function(produto) { %>
           <div class="col-xs-2 col-sm-4 col-md-4 col-lg-4 thumbnail">
@@ -31,23 +41,17 @@
               <p class="precoProduto"><span class="valorProduto <%- produto.id %>"><%- produto.price %></span></p>
               <p class="parcelas <%- produto.id %>">ou 3 x <%- produto.currencyFormat %> <%- produto.parcela %></p>
               <input type="button" class="btn btn-default btnComprar text-center" id="<%- produto.id %>" onclick="AddCarrinho(<%=JSON.stringify(produto)%>);" style="width:100%" value="Comprar" />
+              <hr />
             </div>
           </div>
         <% }); %>
       </div>
     </div>
-    <div id="myModal" class="modal">
-      <div class="modal-content">
-        <span class="close">×</span>
-        <h3>Carrinho</h3>
-        <div class="row">
-          <div class="col-xs-6 col-sm-12 col-md-12 col-lg-12">
-            <div id="produtosCarrinho"></div>
-            <input type="button" class="btn btn-success" id="btnFecharCompra" onclick="FechaCompra()" value="COMPRAR" />
-          </div>
-        </div>
-      </div>
-    </div>
-    <script src="javascripts/scriptModal.js"></script>
+
+    <script>
+      $('.imgCarrinho').click(function() {
+        $('#produtosCarrinho').toggle('slide', {direction: 'left'}, 1000);
+      });
+    </script>
   </body>
 </html>
