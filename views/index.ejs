@@ -10,7 +10,7 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="javascripts/script.js"></script>
   </head>
-  <body>
+  <body onload="SessionCarrinho();">
 
     <div id="produtosCarrinho">
       <h2 class="sacola">Sacola</h2>
@@ -25,8 +25,9 @@
     <div class="container">
 
       <div class="row">
-        <div id="carrinhoCompras" onclick="ProdutoCarrinho()">
+        <div id="carrinhoCompras" onclick="SessionCarrinho()">
           <img src="images/carrinho.jpg" class="imgCarrinho" alt="carrinho"/>
+          <div id="contador"></div>
         </div>
         <hr />
       </div>

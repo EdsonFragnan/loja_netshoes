@@ -116,6 +116,12 @@
   padding-bottom: 70px;
 }
 
+#contador {
+  color: #000;
+  font-weight: bold;
+  font-size: 20px;
+}
+
 #carrinho {
   background: red;
   font-size: 18px;
