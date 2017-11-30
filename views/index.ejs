@@ -2,7 +2,8 @@
 <html lang="pt">
   <head>
     <meta charset="utf-8">
-    <title>slide demo</title>
+    <title>Vitrine NetShoes</title>
+    <meta name="description" content="Vitrine de produtos NetShoes">
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet" href="./bootstrap/dist/css/bootstrap.css">
     <link rel="stylesheet" href="./stylesheets/style.css" type="text/css" />
@@ -15,6 +16,7 @@
     <div id="produtosCarrinho">
       <h2 class="sacola">Sacola</h2>
       <hr />
+      <div id="quantidade"></div>
       <div id="produtosSacola"></div>
       <div id="precoTotal">
         <p>SUBTOTAL</p>
@@ -23,16 +25,15 @@
     </div>
 
     <div class="container">
-
       <div class="row">
-        <div id="carrinhoCompras" onclick="SessionCarrinho()">
+        <div id="carrinhoCompras">
           <img src="images/carrinho.jpg" class="imgCarrinho" alt="carrinho"/>
-          <div id="contador"></div>
+          <div id="contador">0</div>
         </div>
-        <hr />
       </div>
 
-      <div class="row">
+      <div class="row vitrine">
+        <hr />
         <% vitrine.forEach(function(produto) { %>
           <div class="col-xs-2 col-sm-4 col-md-4 col-lg-4 thumbnail">
             <div class="thumbnail <%- produto.id %>">
@@ -50,7 +51,7 @@
     </div>
 
     <script>
-      $('.imgCarrinho').click(function() {
+      $('#carrinhoCompras').click(function() {
         $('#produtosCarrinho').toggle('slide', {direction: 'left'}, 1000);
       });
     </script>

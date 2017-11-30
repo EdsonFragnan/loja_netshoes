@@ -4,6 +4,10 @@
   margin-bottom: -45px;
 }
 
+.vitrine {
+  margin-top: 40px;
+}
+
 .traco {
   text-align: center;
   color: #cccc00;
@@ -70,6 +74,7 @@
   font-size: 20px;
   color: #000;
   float: right;
+  cursor: pointer;
 }
 
 .sacola {
@@ -113,13 +118,16 @@
 /* Carrinho de compras */
 #carrinhoCompras {
   padding-top: 10px;
-  padding-bottom: 70px;
+  float: right;
+  margin-right: 40px;
 }
 
 #contador {
   color: #000;
   font-weight: bold;
   font-size: 20px;
+  margin-left: 57px;
+  margin-top: 18px;
 }
 
 #carrinho {
@@ -135,15 +143,20 @@
   float: right;
 }
 
+#produtosSacola {
+  color: #FFF;
+  font-weight: bold;
+  font-size: 50px;
+  margin-left: 30px;
+}
+
 .imgCarrinho {
   width: 80px;
   height: 80px;
-  float: right;
-	margin-right: 15px;
   z-index: -1;
-  margin-bottom: 35px;
   margin-left: 15px;
   cursor: pointer;
+  position: absolute;
 }
 
 .thumb2 {
