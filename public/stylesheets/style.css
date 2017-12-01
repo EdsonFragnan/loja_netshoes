@@ -103,6 +103,13 @@
   margin-top: 20px;
 }
 
+#mensagemSacola{
+  color: #FFF;
+  text-align: center;
+  font-size: 40px;
+  font-weight: bold;
+}
+
 /* Fim Carrinho de compras */
 
 #produtosCarrinho {
