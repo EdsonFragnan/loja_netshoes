@@ -1,4 +1,3 @@
-const storage = [];
 const AddCarrinho = (produto) => {
   const objetoProduto = {
     'id': produto.id,
@@ -13,29 +12,60 @@ const AddCarrinho = (produto) => {
     'currencyFormat': produto.currencyFormat,
     'isFreeShipping': produto.isFreeShipping
   };
-  const produtos = formataProduto(objetoProduto);
-  const divMsgSacola = document.getElementById('mensagemSacola');
-  const div = document.getElementById('produtosSacola');
-  storage.push(objetoProduto);
-  divMsgSacola.innerHTML = '';
-  const divContador = document.getElementById('contador');
-  const cont = 1 + parseInt(sessionStorage.getItem('contador'));
-  sessionStorage.setItem('storage', JSON.stringify(storage));
-  sessionStorage.setItem('contador', cont);
-  divContador.innerHTML = cont;
-  div.innerHTML+= produtos[0];
+
+  const storage = [];
+  if (localStorage.getItem('storage') != null) {
+    const item = localStorage.getItem('storage');
+    storage.push(objetoProduto);
+    const novoStorage = storage.concat(JSON.parse(item));
+    const formataPreco = trataPreco(storage);
+    const produtosUnico = formataProduto(objetoProduto);
+    const divMsgSacola = document.getElementById('mensagemSacola');
+    const div = document.getElementById('produtosSacola');
+    const precoT = document.getElementById('valorTotal');
+    precoT.innerHTML = formataPreco.toLocaleString('pt-BR', { minimumFractionDigits: 2, style: 'currency', currency: 'BRL'});
+    localStorage.setItem('preco', formataPreco.toLocaleString('pt-BR', { minimumFractionDigits: 2, style: 'currency', currency: 'BRL'}));
+    divMsgSacola.innerHTML = '';
+    const divContador = document.getElementById('contador');
+    const cont = 1 + parseInt(localStorage.getItem('contador'));
+    localStorage.setItem('storage', JSON.stringify(novoStorage));
+    localStorage.setItem('contador', cont);
+    divContador.innerHTML = cont;
+    div.innerHTML+= produtosUnico;
+  } else {
+    const produtos = formataProduto(objetoProduto);
+    const divMsgSacola = document.getElementById('mensagemSacola');
+    const div = document.getElementById('produtosSacola');
+    storage.push(objetoProduto);
+    divMsgSacola.innerHTML = '';
+    const divContador = document.getElementById('contador');
+    const cont = 1 + parseInt(localStorage.getItem('contador'));
+    localStorage.setItem('storage', JSON.stringify(storage));
+    localStorage.setItem('contador', cont);
+    divContador.innerHTML = cont;
+    const formataPreco2 = trataPreco(storage);
+    const precoT2 = document.getElementById('valorTotal');
+    localStorage.setItem('preco', formataPreco2.toLocaleString('pt-BR', { minimumFractionDigits: 2, style: 'currency', currency: 'BRL'}));
+    precoT2.innerHTML = formataPreco2.toLocaleString('pt-BR', { minimumFractionDigits: 2, style: 'currency', currency: 'BRL'});;
+    div.innerHTML+= produtos;
+  }
 };
 
 const SessionCarrinho = () => {
   const divContador = document.getElementById('contador');
   const divMsgSacola = document.getElementById('mensagemSacola');
-  if (!sessionStorage.getItem('contador') || sessionStorage.getItem('contador') === '0') {
-    sessionStorage.setItem('contador', 0);
+  if (!localStorage.getItem('contador') || localStorage.getItem('contador') === '0' || JSON.parse(localStorage.getItem('storage')).length === 0) {
+    localStorage.setItem('contador', 0);
     divContador.innerHTML = 0;
     divMsgSacola.innerHTML = 'Carrinho vazio.';
+    const precoT = document.getElementById('valorTotal');
+    precoT.innerHTML = 'R$' + 0;
+    localStorage.removeItem('storage');
   } else {
-    const parseSacola = JSON.parse(sessionStorage.getItem('storage'));
-    divContador.innerHTML = sessionStorage.getItem('contador');
+    const parseSacola = JSON.parse(localStorage.getItem('storage'));
+    divContador.innerHTML = localStorage.getItem('contador');
+    const precoT2 = document.getElementById('valorTotal');
+    precoT2.innerHTML = localStorage.getItem('preco');
     formataSacola(parseSacola);
   }
 };
@@ -45,22 +75,29 @@ const RemoveProduto = (idProduto) => {
   const divMsgSacola = document.getElementById('mensagemSacola');
   const sacola = document.getElementById('produtosSacola');
   const div = document.getElementById(idProduto);
-  const cont = parseInt(sessionStorage.getItem('contador')) - 1;
-  const parseSacola = JSON.parse(sessionStorage.getItem('storage'));
+  const cont = parseInt(localStorage.getItem('contador')) - 1;
+  const parseSacola = JSON.parse(localStorage.getItem('storage'));
   for (const i in parseSacola) {
     if (idProduto === parseSacola[i].sku) {
       div.parentElement.removeChild(div);
+      const valorRemove = trataPrecoRemove(localStorage.getItem('preco'), parseSacola[i].price);
+      localStorage.setItem('preco', valorRemove.toLocaleString('pt-BR', { minimumFractionDigits: 2, style: 'currency', currency: 'BRL'}));
       parseSacola.splice(i, 1);
-      sessionStorage.setItem('storage', JSON.stringify(parseSacola));
+      localStorage.setItem('storage', JSON.stringify(parseSacola));
     }
   }
-  sessionStorage.setItem('contador', cont);
-  if (parseInt(sessionStorage.getItem('contador')) === 0) {
+  localStorage.setItem('contador', cont);
+  if (parseInt(localStorage.getItem('contador')) === 0) {
     divMsgSacola.innerHTML = 'Carrinho vazio.';
-    divContador.innerHTML = sessionStorage.getItem('contador');
+    divContador.innerHTML = localStorage.getItem('contador');
+    localStorage.clear();
     sacola.innerHTML = '';
+    const precoT2 = document.getElementById('valorTotal');
+    precoT2.innerHTML = 'R$0';
   } else {
-    divContador.innerHTML = sessionStorage.getItem('contador');
+    const preco = document.getElementById('valorTotal');
+    preco.innerHTML = localStorage.getItem('preco');
+    divContador.innerHTML = localStorage.getItem('contador');
   }
 };
 
@@ -80,9 +117,30 @@ const formataProduto = (produto) => {
       '<div class="descPedido">' +
         '<p class="descProduto">' + produto.title + '<span class="glyphicon glyphicon-remove" aria-hidden="true" onclick="RemoveProduto('+ produto.sku +');"><strong>X</strong></span></p>' +
         '<p class="tamanhoProduto">' + produto.availableSizes + ' | ' + produto.style + '</p>' +
-        '<p class="quantidade">Quantidade: 2 <span class="precProdutoCarrinho">' + produto.price + '</span></p>' +
+        '<p class="quantidade">Quantidade: 1 <span class="precProdutoCarrinho">' + produto.price + '</span></p>' +
       '</div>' +
     '</div>'
   ];
-  return produtoHtml;
+  return produtoHtml.toString();
+};
+
+let precos = 0;
+const trataPreco = (valor) => {
+  let preco = 0;
+  for (const i in valor) {
+    const cifrao = valor[i].price.replace('R$', '');
+    const ponto = cifrao.replace(',', '.');
+    preco = parseFloat(ponto);
+    precos += preco;
+  }
+  return precos;
+};
+
+const trataPrecoRemove = (total, produto) => {
+  const cifrao = total.replace('R$', '');
+  const ponto = cifrao.replace(',', '.');
+  const cifrao2 = produto.replace('R$', '');
+  const ponto2 = cifrao2.replace(',', '.');
+  const valorRemove = parseFloat(ponto) - parseFloat(ponto2);
+  return valorRemove;
 };

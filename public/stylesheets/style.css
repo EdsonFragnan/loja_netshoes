@@ -67,7 +67,10 @@
 }
 
 .quantidade {
-  color: #FFF;
+  color: #ccc;
+}
+
+#valorTotal {
 }
 
 .glyphicon-remove {
@@ -88,7 +91,7 @@
   margin-bottom: 20px;
   height: 60px;
   width: 92%;
-  margin-left: 29px;
+  margin-left: 13px;
   background: #000;
   color: #FFF;
   font-weight: bold;
@@ -101,6 +104,12 @@
   font-weight: bold;
   margin-left: 30px;
   margin-top: 20px;
+  float: left;
+}
+
+#valorTotal{
+  float: right !important;
+  margin-right: 30px;
 }
 
 #mensagemSacola{
@@ -126,7 +135,7 @@
 #carrinhoCompras {
   padding-top: 10px;
   float: right;
-  margin-right: 40px;
+  margin-right: 80px;
 }
 
 #contador {
@@ -135,6 +144,7 @@
   font-size: 20px;
   margin-left: 57px;
   margin-top: 18px;
+  cursor: pointer;
 }
 
 #carrinho {
