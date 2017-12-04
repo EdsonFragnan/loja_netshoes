@@ -23,15 +23,23 @@ const AddCarrinho = (produto) => {
     const divMsgSacola = document.getElementById('mensagemSacola');
     const div = document.getElementById('produtosSacola');
     const precoT = document.getElementById('valorTotal');
-    precoT.innerHTML = formataPreco.toLocaleString('pt-BR', { minimumFractionDigits: 2, style: 'currency', currency: 'BRL'});
     localStorage.setItem('preco', formataPreco.toLocaleString('pt-BR', { minimumFractionDigits: 2, style: 'currency', currency: 'BRL'}));
     divMsgSacola.innerHTML = '';
     const divContador = document.getElementById('contador');
     const cont = 1 + parseInt(localStorage.getItem('contador'));
     localStorage.setItem('storage', JSON.stringify(novoStorage));
     localStorage.setItem('contador', cont);
-    divContador.innerHTML = cont;
-    div.innerHTML+= produtosUnico;
+    if (localStorage.getItem('preco2') === null) {
+      precoT.innerHTML = formataPreco.toLocaleString('pt-BR', { minimumFractionDigits: 2, style: 'currency', currency: 'BRL'});
+      divContador.innerHTML = cont;
+      div.innerHTML+= produtosUnico;
+    } else {
+      const valorFinal = trataPrecoTotal(localStorage.getItem('preco2'), formataPreco);
+      localStorage.setItem('preco', valorFinal);
+      precoT.innerHTML = valorFinal.toLocaleString('pt-BR', { minimumFractionDigits: 2, style: 'currency', currency: 'BRL'});
+      divContador.innerHTML = cont;
+      div.innerHTML+= produtosUnico;
+    }
   } else {
     const produtos = formataProduto(objetoProduto);
     const divMsgSacola = document.getElementById('mensagemSacola');
@@ -46,7 +54,7 @@ const AddCarrinho = (produto) => {
     const formataPreco2 = trataPreco(storage);
     const precoT2 = document.getElementById('valorTotal');
     localStorage.setItem('preco', formataPreco2.toLocaleString('pt-BR', { minimumFractionDigits: 2, style: 'currency', currency: 'BRL'}));
-    precoT2.innerHTML = formataPreco2.toLocaleString('pt-BR', { minimumFractionDigits: 2, style: 'currency', currency: 'BRL'});;
+    precoT2.innerHTML = formataPreco2.toLocaleString('pt-BR', { minimumFractionDigits: 2, style: 'currency', currency: 'BRL'});
     div.innerHTML+= produtos;
   }
 };
@@ -65,7 +73,8 @@ const SessionCarrinho = () => {
     const parseSacola = JSON.parse(localStorage.getItem('storage'));
     divContador.innerHTML = localStorage.getItem('contador');
     const precoT2 = document.getElementById('valorTotal');
-    precoT2.innerHTML = localStorage.getItem('preco');
+    precoT2.innerHTML = localStorage.getItem('preco').indexOf('R$') === 0 ? localStorage.getItem('preco') : parseFloat(localStorage.getItem('preco')).toLocaleString('pt-BR', { minimumFractionDigits: 2, style: 'currency', currency: 'BRL'});
+    localStorage.setItem('preco2', localStorage.getItem('preco'));
     formataSacola(parseSacola);
   }
 };
@@ -87,9 +96,9 @@ const RemoveProduto = (idProduto) => {
     }
   }
   localStorage.setItem('contador', cont);
-  if (parseInt(localStorage.getItem('contador')) === 0) {
+  if (parseInt(localStorage.getItem('contador')) === 0 || localStorage.getItem('preco') ==='R$0,00') {
     divMsgSacola.innerHTML = 'Carrinho vazio.';
-    divContador.innerHTML = localStorage.getItem('contador');
+    divContador.innerHTML = '0';
     localStorage.clear();
     sacola.innerHTML = '';
     const precoT2 = document.getElementById('valorTotal');
@@ -142,5 +151,12 @@ const trataPrecoRemove = (total, produto) => {
   const cifrao2 = produto.replace('R$', '');
   const ponto2 = cifrao2.replace(',', '.');
   const valorRemove = parseFloat(ponto) - parseFloat(ponto2);
+  return valorRemove;
+};
+
+const trataPrecoTotal = (total, produto) => {
+  const cifrao = total.replace('R$', '');
+  const ponto = cifrao.replace(',', '.');
+  const valorRemove = parseFloat(ponto) + produto;
   return valorRemove;
 };
