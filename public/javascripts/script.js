@@ -160,3 +160,9 @@ const trataPrecoTotal = (total, produto) => {
   const valorRemove = parseFloat(ponto) + produto;
   return valorRemove;
 };
+
+const Compra = () => {
+  alert('Compra no valor de ' + localStorage.getItem('preco') + ' feita com sucesso!');
+  localStorage.clear();
+  location.reload();
+};
