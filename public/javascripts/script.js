@@ -14,9 +14,9 @@ const AddCarrinho = (produto) => {
   };
 
   const storage = [];
-  if (localStorage.getItem('storage') != null) {
-    const item = localStorage.getItem('storage');
+  if (localStorage.getItem('storage') != null || localStorage.getItem('storage') === '[]') {
     storage.push(objetoProduto);
+    const item = localStorage.getItem('storage');
     const novoStorage = storage.concat(JSON.parse(item));
     const formataPreco = trataPreco(storage);
     const produtosUnico = formataProduto(objetoProduto);
@@ -99,14 +99,21 @@ const RemoveProduto = (idProduto) => {
   if (parseInt(localStorage.getItem('contador')) === 0 || localStorage.getItem('preco') ==='R$0,00') {
     divMsgSacola.innerHTML = 'Carrinho vazio.';
     divContador.innerHTML = '0';
-    localStorage.clear();
     sacola.innerHTML = '';
     const precoT2 = document.getElementById('valorTotal');
     precoT2.innerHTML = 'R$0';
+    localStorage.clear();
   } else {
-    const preco = document.getElementById('valorTotal');
-    preco.innerHTML = localStorage.getItem('preco');
-    divContador.innerHTML = localStorage.getItem('contador');
+    if (localStorage.getItem('storage') === '[]') {
+      const preco = document.getElementById('valorTotal');
+      preco.innerHTML = 'R$0';
+      divMsgSacola.innerHTML = 'Carrinho vazio.';
+      divContador.innerHTML = '0';
+    } else {
+      const preco = document.getElementById('valorTotal');
+      preco.innerHTML = localStorage.getItem('preco');
+      divContador.innerHTML = localStorage.getItem('contador');
+    }
   }
 };
 
@@ -162,7 +169,13 @@ const trataPrecoTotal = (total, produto) => {
 };
 
 const Compra = () => {
-  alert('Compra no valor de ' + localStorage.getItem('preco') + ' feita com sucesso!');
+  const envio = 'Compra no valor de ' + localStorage.getItem('preco') + ' feita com sucesso!';
+  $.ajax({
+      type: 'POST',
+      url: '/venda',
+      success: (retorno) => {
+        location.href = 'http://localhost:5000/carrinho';
+      }
+  });
   localStorage.clear();
-  location.reload();
 };
