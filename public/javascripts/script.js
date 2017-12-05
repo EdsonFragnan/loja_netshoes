@@ -1,4 +1,5 @@
 let carrinhoControle = [];
+let precos = [];
 const AddCarrinho = (produto) => {
   const objetoProduto = {
     'id': produto.id,
@@ -65,6 +66,7 @@ const RemoveProduto = (idProduto) => {
   localStorage.setItem('contador', JSON.parse(localStorage.getItem('contador') - 1));
   if (trataRemove.valorSub === 0 || trataRemove.produto.length === 0 || localStorage.getItem('contador') === '0') {
     carrinhoControle = [];
+    precos = [];
     localStorage.removeItem('contador');
     localStorage.setItem('valorSacola', '0');
     localStorage.setItem('valorFinal', '0');
@@ -95,6 +97,7 @@ const formataSacolaRemove = (sacola, id, valorTotal) => {
         produto: sacola
       };
       sacola.splice(i, 1);
+      precos.splice(i, 1);
       divProduto.parentElement.removeChild(divProduto);
       return objeto;
     } else {
@@ -132,7 +135,6 @@ const trataContador = (contador) => {
   }
 };
 
-const precos = [];
 const trataValorCarrinho = (sacola) => {
   let valor = 0;
   sacola = JSON.parse(sacola);
