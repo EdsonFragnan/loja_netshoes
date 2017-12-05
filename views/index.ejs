@@ -11,6 +11,7 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="javascripts/script.js"></script>
   </head>
+
   <body onload="SessionCarrinho();">
     <div id="produtosCarrinho">
       <h2 class="sacola">Sacola</h2>
@@ -35,7 +36,7 @@
       <div class="col-xs-12 col-sm-12 col-md-12 row vitrine">
         <hr />
         <% vitrine.forEach(function(produto) { %>
-          <div class="col-xs-2 col-sm-4 col-md-4 col-lg-4 thumbnail">
+          <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 thumbnail">
             <div class="thumbnail <%- produto.id %>">
               <img src="images/corinthians.jpg" class="imagem <%- produto.id %>" alt="Corinthians" style="width:100%">
               <p class="tituloProduto <%- produto.id %>"><%- produto.title %></p>
