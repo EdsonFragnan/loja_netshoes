@@ -198,3 +198,15 @@ const trataCifrao = (valor, valor2) => {
     }
   }
 };
+
+const Compra = () => {
+  const envio = 'Compra no valor de ' + localStorage.getItem('preco') + ' feita com sucesso!';
+  $.ajax({
+      type: 'POST',
+      url: '/venda',
+      success: (retorno) => {
+        location.href = 'http://localhost:5000/carrinho';
+      }
+  });
+  localStorage.clear();
+};
