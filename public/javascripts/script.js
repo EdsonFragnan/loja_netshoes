@@ -1,6 +1,6 @@
 let carrinhoControle = [];
 let precos = [];
-const AddCarrinho = (produto) => {
+const AddSacola = (produto) => {
   const objetoProduto = {
     'id': produto.id,
     'sku': produto.sku,
