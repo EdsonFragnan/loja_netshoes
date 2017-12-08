@@ -16,6 +16,11 @@
   margin-top: 40px;
 }
 
+.form-control {
+    display: block;
+    width: 9% !important;
+}
+
 .traco {
   text-align: center;
   color: #cccc00;
